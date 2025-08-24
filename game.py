@@ -6,6 +6,7 @@ Asteroids‑Spelling – Minimal skeleton
 import math
 import random
 import pygame
+from letterfrequency import build_frequency_list
 from pygame.locals import *
 from collections import deque
 
