@@ -1,10 +1,7 @@
-# asteroids-spelling-pygame
-My attempt vibe coding an arcade style game with offline LLMs
-
-## Concept
+# Concept
 A game of classic asteroids where the different asteroids have letters embedded in them. Blowing up asteroids functionaly plays a game of hangman. 
 
-### Prompt Instructions
+## Prompt Instructions
 - The game will be built in python using the pygame module. Please create a list of pip install commands for any library dependencies needed for testing. 
 - The game will begin revealing how many letters are in the word "ASTEROID" with blank lines or underscore characters.
 - The ship will have all of the same capabilities of the ship in the arcade game asteroids. The ship will have 10 lives and will lose a life whenever it collides with an object or collects the incorrect letter. The initial key mapping should be arrow keys for movement and spacebar for firing.
@@ -19,5 +16,5 @@ A game of classic asteroids where the different asteroids have letters embedded 
 1 value: Q, Z
 - When the user discovers the word correctly or runs out of lives the game is over. Please create a dynamic end of game screen that pops up and doesn't cover the whole screen.
 
-### Additional Instructions
-I do not currently have any assets created. Please create basic assets that you can use. 
+## Additional Instructions
+I do not currently have any assets created. Please create basic assets that you can use for creating the pygame. 
