@@ -8,6 +8,7 @@ from assets.ship import Ship
 from assets.asteroids import Asteroid
 from assets.hearts import Hearts
 from assets.collision import bullets_vs_asteroids, ship_vs_asteroids
+from assets.sounds.sound_manager import SoundManager
 from letterfrequency import build_frequency_list
 
 FPS = 60
@@ -41,8 +42,14 @@ def main():
     font = pygame.font.SysFont(None, 28)
     bigfont = pygame.font.SysFont(None, 48)
 
-    ship = Ship((SCREEN_W/2, SCREEN_H/2), lives=3)
-    hearts = Hearts(ship.lives, (10, SCREEN_H-26))
+    # Initialize sound manager
+    sound_manager = SoundManager()
+
+    ship = Ship((SCREEN_W/2, SCREEN_H/2), sound_manager=sound_manager)
+    hearts = Hearts(ship, (10, SCREEN_H-26))
+
+    # Start background music
+    sound_manager.play_music('background')
 
     target_word = "PYGAME"
     collected = ""
@@ -55,11 +62,12 @@ def main():
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
+                sound_manager.cleanup()
                 return
             if event.type == KEYDOWN and (game_over or win):
                 # restart
-                ship = Ship((SCREEN_W/2, SCREEN_H/2), lives=3)
-                hearts = Hearts(ship.lives, (10, SCREEN_H-26))
+                ship = Ship((SCREEN_W/2, SCREEN_H/2), sound_manager=sound_manager)
+                hearts = Hearts(ship, (10, SCREEN_H-26))
                 collected = ""
                 asteroids = spawn_asteroids(field_letters, 6)
                 game_over = False
@@ -74,15 +82,18 @@ def main():
             letters, asteroids = bullets_vs_asteroids(ship, asteroids)
             for L in letters:
                 collected += L
+                sound_manager.play_sound('asteroid_hit')  # Play hit sound
                 if all(ch in collected for ch in target_word):
+                    sound_manager.play_sound('victory')  # Play victory sound
                     win = True
 
             # ship hits
             lives_delta = ship_vs_asteroids(ship, asteroids)
             if lives_delta < 0:
                 ship.lives += lives_delta
-                hearts.set_lives(ship.lives)
+                sound_manager.play_sound('ship_hit')  # Play ship hit sound
                 if ship.lives <= 0:
+                    sound_manager.play_sound('game_over')  # Play game over sound
                     game_over = True
 
             # update asteroids

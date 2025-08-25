@@ -13,15 +13,12 @@ def _heart_points(x, y, s):
     ]
 
 class Hearts:
-    def __init__(self, lives, pos):
-        self.lives = lives
+    def __init__(self, ship, pos):
+        self.ship = ship  # Reference to the ship object
         self.pos = pos  # (x, y)
-
-    def set_lives(self, n):
-        self.lives = max(0, int(n))
 
     def draw(self, surf):
         x0, y0 = self.pos
-        for i in range(self.lives):
+        for i in range(self.ship.lives):
             pts = _heart_points(x0 + i*(HEART_SIZE+8), y0, 1)
             pygame.draw.polygon(surf, HEART_COLOR, pts)

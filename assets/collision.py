@@ -28,7 +28,21 @@ def bullets_vs_asteroids(ship, asteroids):
 def ship_vs_asteroids(ship, asteroids):
     """Return lives_delta and asteroids (no removal on contact)."""
     lives_delta = 0
-    for ast in asteroids:
-        if ast.collide_with_point(ship.pos):
-            lives_delta -= 1
+    # Only check collisions if ship is not invincible
+    if not ship.is_invincible():
+        for ast in asteroids:
+            if ast.collide_with_point(ship.pos):
+                lives_delta -= 1
+                # Trigger invincibility when damage is taken
+                ship.take_damage()
+                break  # Only take one hit at a time
     return lives_delta
+
+def asteroids_vs_asteroids(asteroids):
+    """Return lives_delta and asteroids (no removal on contact)."""
+    for ast in asteroids:
+        for ast2 in asteroids:
+            if ast != ast2 and ast.collide_with_point(ast2.pos):
+                ast.vel = ast.vel.reflect(ast2.vel)
+                ast2.vel = ast2.vel.reflect(ast.vel)
+    return asteroids

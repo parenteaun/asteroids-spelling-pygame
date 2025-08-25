@@ -1,5 +1,6 @@
 # assets/config.py
 SCREEN_W, SCREEN_H = 800, 600
+STARTING_LIVES = 5
 
 def wrap_position(pos):
     """Keeps a point inside the screen (wrap-around)."""
