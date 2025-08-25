@@ -2,22 +2,25 @@
 import pygame
 import os
 from pathlib import Path
+from assets.config import SOUND_ENABLED
 
 class SoundManager:
     def __init__(self):
         """Initialize the sound manager and load all game sounds."""
         self.sounds = {}
         self.music_tracks = {}
-        self.sound_enabled = True
-        self.music_enabled = True
+        self.sound_enabled = SOUND_ENABLED
+        self.music_enabled = SOUND_ENABLED
         self.sound_volume = 0.7
         self.music_volume = 0.5
         
-        # Initialize pygame mixer if not already done
-        if not pygame.mixer.get_init():
-            pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
-        
-        self.load_sounds()
+        # Only initialize mixer and load sounds if sound is enabled
+        if SOUND_ENABLED:
+            # Initialize pygame mixer if not already done
+            if not pygame.mixer.get_init():
+                pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
+            
+            self.load_sounds()
     
     def load_sounds(self):
         """Load all sound effects and music tracks."""
@@ -127,4 +130,5 @@ class SoundManager:
     
     def cleanup(self):
         """Clean up sound resources."""
-        pygame.mixer.quit()
+        if SOUND_ENABLED and pygame.mixer.get_init():
+            pygame.mixer.quit()
